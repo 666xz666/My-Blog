@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "msedge",
+        "request": "launch",
+        "name": "Launch Microsoft Edge and open the Edge DevTools",
+        "url": "http://localhost:443/index.html",
+        "webRoot": "${workspaceFolder}"
+      }
+    ]
+  }

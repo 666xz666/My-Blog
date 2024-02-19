@@ -1,0 +1,426 @@
+副本
+<!DOCTYPE html>
+<html>
+<head>
+    <title>666xz666's blog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/resources/icons/favicon.ico" type="image/x-icon">
+
+
+    <style>
+       /* HTML: <div class="loader"></div> */
+        .loader {
+            position:absolute;
+            top: 50%;
+            left: 50%;
+            width: 70px;
+            aspect-ratio: 1;
+            background: conic-gradient(from -45deg,#8A8780 90deg,#94BA65 0 180deg,#2790B0 0 270deg,#2B4E72 0);
+            animation: l20 2s infinite; 
+        }
+        @keyframes l20 {
+            0%  {clip-path: polygon(0    0   ,100% 0   ,50% 50%)}
+            25% {clip-path: polygon(100% 0   ,100% 100%,50% 50%)}
+            50% {clip-path: polygon(100% 100%,0    100%,50% 50%)}
+            75% {clip-path: polygon(0    100%,0    0   ,50% 50%)}
+            100%{clip-path: polygon(0    0   ,100% 0   ,50% 50%)}
+        }
+    </style>
+    <style>
+
+        .option-selected {
+            text-decoration: underline;
+            text-decoration-color: #ff6347;
+            text-decoration-thickness: 2px;
+        }
+
+        .option-selected::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 5px;
+            bottom: 0;
+            left: 0;
+            background-color: #ff6347;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        
+        .option-selected:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        
+
+        #c {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+      
+        #main-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        #navbar {
+            background-color: hsla(0, 0%, 0%, 0.5);
+            border-bottom: 1px solid #4a4a4a;
+            box-shadow: 0 2px 10px rgba(113, 13, 13, 0.438);
+            height:15vh
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5em 0.5em;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 1em; 
+        }
+        
+        .logo img {
+            height: 10vh;
+            border-radius: 50%;
+        }
+
+        .options {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .options li {
+            font-size: 4vh;
+            margin-right: 1em;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .options li:hover {
+            color: #ff6347;
+        }
+
+        .login-btn {
+            background-color: #ff6347;
+            color: white;
+            padding: 0.1em 0.5em;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background-color: #cc4c38;
+        }
+
+        .mid-container {
+            display: flex;
+            height: 73vh;
+            width: 100%;
+          }
+
+        #sidebar {
+            background-color: hsla(0, 0%, 44%, 0.7);
+            color: #fff;
+            width: auto;
+            border-right: 1px solid #ff6347;
+            overflow: auto;
+            font-size: x-small;
+            padding: 1em;
+            resize: horizontal;
+        }
+        
+        .option-intro {
+            display: block;
+            background-color: hsla(0, 0, 0, 0.3); /* Light grey background */
+            padding: 1em;
+            border-radius: 4px;
+            overflow: auto;
+            font-size: xx-small;
+            box-sizing: border-box;
+        }
+        
+        .article-title-container {
+            display: block;
+            background-color: hsla(0, 0, 0, 0.5); /* Light grey background */
+            padding: 1em;
+        }
+        
+        .article-title-container .article-title {
+            cursor: pointer;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0.5em 0;
+            border-radius: 4px;
+        }
+        
+        .article-title-container .article-title:hover {
+            color: #007bff;
+        }
+        
+
+        #content {
+            flex-grow: 1;
+            background-color: hsla(0,0,0, 0.672); 
+            padding: 1em;
+            overflow: auto; /* Add a scrollbar if needed */
+            font-size: x-small;
+            color: #fff;
+            width: 65%;
+        }
+    
+        #resizer {
+            cursor: ew-resize;
+            width: 5px;
+            background: #ff6347;
+          }
+
+        #multifunction-box {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 12vh; /* Adjust this value as needed */
+            background-color: hsla(0, 0%, 0%, 0.5);
+            color: #fff;
+            display: flex;
+            justify-content: right;
+            box-sizing: border-box;
+            align-items:center;
+            gap:1em;
+            padding: 2px;
+        }
+        
+        .footer-content {
+            /* Style for your general website footer content */
+            font-size: 1em;
+            color: #ccc;
+        }
+        
+        .tools-container {
+            /* Style for your small tools */
+            display: flex;
+            /*gap: 1em;*/
+        }
+        
+        
+        
+    </style>
+
+    <!--播放器样式-->
+    <style>
+        #player {
+            background-color: hsla(0,0,0, 0.672);;
+            text-align: center;
+            height:6vh;
+            display: inline;
+            box-sizing: border-box;
+        }
+        
+        #cover {
+            width: 4vh;
+            height: 4vh;
+            border-radius: 50%;
+            border: #ff6347 1px solid;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .rotating {
+            animation: spin 2s linear infinite;
+        }
+        
+        button {
+            background: none;
+            border: none;
+        }
+        
+        button img {
+            width: 4vh;
+            height: 4vh;
+        }
+        
+        #song-title {
+            font-size: 2vh;
+            font-weight: bold;
+            color:white;
+        }
+        
+    </style>
+
+    <style>
+        .ripple {
+            position: absolute;
+            width: 50px;  /* 将宽度和高度减小一半 */
+            height: 50px;  /* 将宽度和高度减小一半 */
+            border-radius: 50%;
+            animation: ripple 1s ease-out;
+            pointer-events: none;
+        }
+        @keyframes ripple {
+            from {
+                transform: scale(0);
+                opacity: 1;
+            }
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+    
+    <style>
+        .clock {
+          position: relative;
+          width: 6vh;
+          height: 6vh;
+          border: 2px solid #bc3f3f;
+          border-radius: 50%;
+          background: #000;
+        }
+        
+        .hand {
+          position: absolute;
+          bottom: 50%;
+          width: 1px;
+          height: 50%;
+          background: #ff6347;
+          transform-origin: bottom;
+          transition: transform 0.05s;
+        }
+        
+        #hour-hand {
+            left: 49%;
+            width: 2px;
+            height: 30%;
+          }
+          
+        #minute-hand {
+            left: 49.5%;
+            width: 1px;
+            height: 40%;
+          }
+          
+        #second-hand {
+            left: 49.75%;
+            width: 0.5px;
+            height: 45%;
+          }
+
+        #time-display {
+            height: 5vh;
+            background: hsla(0,0,0, 0.672);
+            color: #ff6347;
+            font-size: 2vh;
+            text-align: center;
+            line-height: 3vh;
+        }
+        </style>
+</head>
+
+
+<body id="container">
+    
+    <canvas id="c"></canvas>
+    <div id="main-container">
+        <div class="loader"></div>
+        <div id="navbar">
+            <div class="navbar-container">
+                <div class="logo">
+                    <a href="/index.html">
+                        <img title="666xz666" src="/resources/icons/666xz666.jpg">
+                    </a>
+                </div>
+                <ul class="options">
+                    <li>Resume</li>
+                    <li>Article</li>
+                    <li>Github</li>
+                    <li>Contact</li>
+                    <li>Contribute</li>
+                </ul>
+                <div class="login-btn" onclick="location.href='/login_page/login.html';">Login</div>
+            </div>
+        </div>
+        <div class="mid-container">
+        <div id="sidebar">
+            <span class="option-intro"></span>
+            <div class="article-title-container"></div>
+        </div>
+        <div id="content"></div>
+        </div>
+        <div id="multifunction-box">
+            <div id="player">
+                <img id="cover" src="" alt="Cover">
+                <button id="prev-button"><img src="/resources/icons/mu_playpre.png" alt="Prev"></button>
+                <button id="play-pause-button"><img src="/resources/icons/mu_play.png" alt="Play"></button>
+                <button id="next-button"><img src="/resources/icons/mu_playnext.png" alt="Next"></button>
+                <div id="song-title"></div>
+            </div>
+            <div class="clock">
+                <div id="hour-hand" class="hand"></div>
+                <div id="minute-hand" class="hand"></div>
+                <div id="second-hand" class="hand"></div>
+            </div>
+            <div id="time-display">
+                <div id="time"></div>
+                <div id="date"></div>
+            </div>
+        </div>
+    </div>
+        
+    
+
+    
+
+    <!--点击选项文章加载-->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/JavaScript/option_article_load.js"></script>
+    
+
+    <!--播放器js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="/JavaScript/mu_player.js"></script>
+
+
+    <!--canvas-->
+    <script src="/JavaScript/canvas.js"></script>
+
+    <!--鼠标点击波纹-->
+    <script src="/JavaScript/mouse_click.js"></script>
+
+    <!--时钟-->
+    <script src="/JavaScript/clock.js"></script>
+    
+    <!--加载动画-->
+    <script src="/JavaScript/loading.js"></script>
+
+    <!--test-->
+    <script >
+        // 获取视口的高度（以px为单位）
+        let viewportHeight = window.innerHeight;
+
+        // 计算1vh等于多少px
+        let vhToPx = viewportHeight / 100;
+
+        console.log('1vh is equal to ' + vhToPx + 'px');
+
+    </script>
+</body>
+</html>

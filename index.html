@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>666xz666's blog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/resources/icons/favicon.ico" type="image/x-icon">
+
+    <style>
+        body::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari and Opera */
+        }
+
+        
+        /* CSS: Styling for the canvas */
+         #c {
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+       /* #main-container {
+
+        }*/
+
+        .mid-container {
+            position: relative;
+            color:white;
+            top:15vh;
+            margin-bottom: 15vh;
+        }
+
+        .footer-content {
+            height: 40vh;
+            bottom: 0; /* Add this line */
+            width: 100%; /* Add this line */
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .footer-content .social-media {
+            margin: 20px 0;
+        }
+        
+        .footer-content .social-media img {
+            width: 24px;
+            height: 24px;
+            margin: 0 10px;
+        }
+
+        .qq-hover-image {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .qq-hover-image:hover::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background-image: url('/resources/icons/QQ.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .wx-hover-image {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .wx-hover-image:hover::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background-image: url('/resources/icons/WeChat.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        a[href="#top"] {
+            color: #fff;
+            background-color: #333;
+            padding: 10px 20px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        a[href="#top"]:hover {
+            background-color: #ff6347;
+        }
+    </style>
+
+    <style>
+        /* HTML: <div class="loader"></div> 加载图标*/
+        body {
+            width: auto;
+            height: auto;
+            background-color: #000;
+        }
+
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 70px;
+            aspect-ratio: 1;
+            background: conic-gradient(from -45deg, #8A8780 90deg, #94BA65 0 180deg, #2790B0 0 270deg, #2B4E72 0);
+            animation: l20 2s infinite;
+        }
+
+        @keyframes l20 {
+            0% {
+                clip-path: polygon(0 0, 100% 0, 50% 50%)
+            }
+
+            25% {
+                clip-path: polygon(100% 0, 100% 100%, 50% 50%)
+            }
+
+            50% {
+                clip-path: polygon(100% 100%, 0 100%, 50% 50%)
+            }
+
+            75% {
+                clip-path: polygon(0 100%, 0 0, 50% 50%)
+            }
+
+            100% {
+                clip-path: polygon(0 0, 100% 0, 50% 50%)
+            }
+        }
+    </style>
+
+    <!--navabar-->
+    <style>
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: rgba(0,0,0,0.7);
+            height:15vh;
+
+            position: fixed;
+            top: 0;
+            width: 100%; /* Add this line */
+
+            box-sizing: border-box;
+            padding: auto;
+        }
+        
+        .navbar-left, .navbar-center, .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-center {
+            overflow: auto;
+            white-space: nowrap;
+            
+        }
+
+        .navbar-center a {
+            transition: color 0.3s, border-bottom 0.3s;
+            text-decoration: none;
+            color: black; /* Default color */
+        }
+        
+
+        .navbar-center a.selected {
+            color: #ff6347;
+            border-bottom: 2px solid #ff6347;
+        }
+ 
+        .navbar-center::-webkit-scrollbar {
+            display: none;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        
+        .navbar-center a {
+            margin: 0 10px;
+            text-decoration: none;
+            color:#fff;
+        }
+        
+        #login-button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #ff6347;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        #user-info span {
+            margin: 0 10px;
+        }
+    </style>
+    
+   
+       
+
+    <!--multifunction-box-->
+    <style>
+            #multifunction-box {
+                display: flex;
+                justify-content: space-between;
+                padding: 0 10px; /* Adjust as needed */
+                overflow-x: auto;
+                white-space: nowrap;
+                scrollbar-width: none; /* Firefox */
+                height: 12vh; /* Adjust as needed */
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: hsla(0, 0%, 0%, 0.5);
+                border-top: #ff6347 1px solid;
+                align-items: center;
+            }
+            
+            #multifunction-box::-webkit-scrollbar {
+                display: none; /* Chrome, Safari and Opera */
+            }
+
+            .footer-content {
+                /* Style for your general website footer content */
+                display: block;
+                font-size: 1em;
+                width: 100%;
+                background-color: hsla(0, 0%, 0%, 0.5);
+                height: 300px;
+                color: #fff;
+            }
+
+            .tools-container {
+                /* Style for your small tools */
+                display: flex;
+                /*gap: 1em;*/
+            }
+    </style>
+
+    <!--播放器样式-->
+    <style>
+        #player {
+            background-color: hsla(0, 0, 0, 0.672);
+            ;
+            text-align: center;
+            height: 6vh;
+            display: inline;
+            box-sizing: border-box;
+        }
+
+        #cover {
+            width: 4vh;
+            height: 4vh;
+            border-radius: 50%;
+            border: #ff6347 1px solid;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rotating {
+            animation: spin 2s linear infinite;
+        }
+
+        button {
+            background: none;
+            border: none;
+        }
+
+        button img {
+            width: 4vh;
+            height: 4vh;
+        }
+
+        #song-title {
+            font-size: 2vh;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+
+    <style>/*鼠标点击波纹*/
+        .ripple {
+            position: absolute;
+            width: 50px;
+            /* 将宽度和高度减小一半 */
+            height: 50px;
+            /* 将宽度和高度减小一半 */
+            border-radius: 50%;
+            animation: ripple 1s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            from {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <style>/*时钟*/
+        .clock {
+            position: relative;
+            width: 6vh;
+            height: 6vh;
+            border: 2px solid #bc3f3f;
+            border-radius: 50%;
+            background: #000;
+        }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            width: 1px;
+            height: 50%;
+            background: #ff6347;
+            transform-origin: bottom;
+            transition: transform 0.05s;
+        }
+
+        #hour-hand {
+            left: 49%;
+            width: 2px;
+            height: 30%;
+        }
+
+        #minute-hand {
+            left: 49.5%;
+            width: 1px;
+            height: 40%;
+        }
+
+        #second-hand {
+            left: 49.75%;
+            width: 0.5px;
+            height: 45%;
+        }
+
+        #time-display {
+            height: 5vh;
+            background: hsla(0, 0, 0, 0.672);
+            color: #ff6347;
+            font-size: 2vh;
+            text-align: center;
+            line-height: 3vh;
+        }
+
+        .clock-box {
+            display: flex;
+            justify-content: space-around; /* Optional: Adds some space between the items */
+        }
+    </style>
+</head>
+
+
+<body id="container" data-header-desktop="fixed" data-header-mobile="auto" inmaintabuse="1" class>
+    <canvas id="c"></canvas>
+    <div id="main-container">
+        <div id="top"></div>
+        <div class="loader"></div>
+        <div class="navbar">
+            <div class="navbar-left">
+                <img src="/resources/icons/666xz666.jpg" alt="Avatar" class="avatar">
+            </div>
+            <div class="navbar-center">
+                <a href="#Resume">Resume</a>
+                <a href="#Articles">Articles</a>
+                <a href="https://github.com/666xz666">Github</a>
+                <a href="#Contribute">Contribute</a>
+            </div>
+            <div class="navbar-right">
+                <button id="login-button">Login</button>
+                <div id="user-info" style="display: none;">
+                    <span id="username">Username</span>
+                    <span id="email">Email</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mid-container">
+           
+            <!-- Content will be displayed here -->
+        </div>
+
+        <div class="footer-content">
+            <p>© 2022 My Website</p>
+            <div class="social-media">
+                <a href="#" class="qq-hover-image"><img src="/resources/icons/qq.png" alt="QQ"></a>
+                <a href="#" class="wx-hover-image"><img src="/resources/icons/wx.jpg" alt="Wechat"></a>
+                <a href="https://github.com/666xz666"><img src="/resources/icons/github.jpg" alt="Github"></a>
+            </div>
+            <a href="#top">Back to top</a>
+        </div>
+
+        <div id="multifunction-box">
+            <div id="player">
+                <img id="cover" src="" alt="Cover">
+                <button id="prev-button"><img src="/resources/icons/mu_playpre.png" alt="Prev"></button>
+                <button id="play-pause-button"><img src="/resources/icons/mu_play.png" alt="Play"></button>
+                <button id="next-button"><img src="/resources/icons/mu_playnext.png" alt="Next"></button>
+                <div id="song-title"></div>
+            </div>
+            <div class="clock-box">
+                <div class="clock">
+                <div id="hour-hand" class="hand"></div>
+                <div id="minute-hand" class="hand"></div>
+                <div id="second-hand" class="hand"></div>
+            </div>
+            <div id="time-display">
+                <div id="time"></div>
+                <div id="date"></div>
+            </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    
+    <!--Login-btn-->
+    <script src="/JavaScript/account.js"></script>
+
+    <script src="/login_page/js/jquery-2.1.1.min.js"></script>
+
+    <!--navabar-->
+    <script>
+        // Get all links
+        var links = document.querySelectorAll('.navbar-center a');
+
+        // Add click event listener to each link
+        links.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                // Remove 'selected' class from all links
+                links.forEach(function(otherLink) {
+                    otherLink.classList.remove('selected');
+                });
+
+                // Add 'selected' class to the clicked link
+                link.classList.add('selected');
+
+                if(link.href.includes('github')) {
+                    alert('You are going to be redirected to \nhttps://github.com/666xz666.');
+                    window.location.href = link.href;
+                }
+            });
+        });
+
+        // Simulate a click on the 'Resume' link when the page loads
+        window.addEventListener('load', function() {
+            var resumeLink = document.querySelector('.navbar-center a[href="#Resume"]');
+            resumeLink.click();
+        });
+    </script>
+
+    <!--Resume-->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        document.querySelector('.mid-container').addstyle = "margin-bottom: 15vh;";
+        document.querySelector('.navbar-center a[href="#Resume"]').addEventListener('click', function(event) {
+            event.preventDefault();
+        
+            fetch('/resources/Resume/README.md')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('.mid-container').innerHTML = marked.parse(data);
+                })
+                .catch(error => console.error(error));
+            });
+    </script>
+    
+
+    <!--Articles-->>
+    <script>
+       
+        var articles = document.querySelector('.navbar-center a[href="#Articles"]');
+
+        // 添加点击事件监听器
+        articles.addEventListener('click', function() {
+            document.querySelector('.mid-container').innerHTML =`
+            <style>
+            .mid-container {
+                position: relative;
+                display: flex;
+                background-color: rgba(0, 0, 0, 0.5);  /* 黑色，透明度为 0.5 */
+                width: 100%;
+                height: 72vh;
+                margin-bottom: 15vh;
+            }
+            
+            #sidebar {
+                width: 40%; /* Adjust as needed */
+                min-width: 120px; /* Adjust as needed */
+                height: 72vh;
+                background-color: rgba(102, 102, 102, 0.5);  /* 完全不透明的灰色 */
+                overflow: auto;
+                resize: horizontal;
+            }
+            
+            #sidebar::-webkit-scrollbar {
+                display: none; /* For Chrome, Safari and Opera */
+            }
+
+            #content {
+                width: 75%; /* Adjust as needed */
+                height= 72vh;
+                padding: 10px;
+                overflow: auto;
+            }
+
+            #content img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            #content ::-webkit-scrollbar {
+                display: none; /* For Chrome, Safari and Opera */
+            }
+            
+            #resizer {
+                height: 72vh;
+                cursor: ew-resize;
+                width: 5px;
+                background: linear-gradient(to bottom, black, #ff6347,black);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .dot {
+                width: 2px;
+                height: 2px;
+                margin:2px;
+                background-color: black;
+                border-radius: 50%;
+            }
+            </style>
+
+            <div id="sidebar">
+                <span class="option-intro"></span>
+                <div class="article-title-container"></div>
+            </div>
+            <div class="resizer" id="resizer">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div id="content"></div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var resizer = document.getElementById('resizer');
+                    var sidebar = document.getElementById('sidebar');
+                    var content = document.getElementById('content');
+                
+                    if (!resizer || !sidebar || !content) {
+                        console.error('Cannot find one or more elements. Please check the IDs.');
+                        return;
+                    }
+                
+                    var isResizing = false;
+                    var lastDownX = 0;
+                
+                    resizer.addEventListener('mousedown', function(e) {
+                        isResizing = true;
+                        lastDownX = e.clientX;
+                    });
+                
+                    document.addEventListener('mousemove', function(e) {
+                        if (!isResizing) return;
+                        var offsetRight = document.body.clientWidth - (e.clientX - sidebar.getBoundingClientRect().left);
+                        sidebar.style.width = offsetRight + 'px';
+                        content.style.width = document.body.clientWidth - offsetRight + 'px';
+                    });
+                
+                    document.addEventListener('mouseup', function() {
+                        isResizing = false;
+                    });
+                });
+            <\/script>
+            `;
+
+
+            // 获取 #sidebar 元素
+            var sidebar = document.querySelector('#sidebar');
+
+            sidebar.innerHTML=`
+            <style>
+                input, label {
+                    display: block;
+                    margin-bottom: 10px;
+                    font-size: 16px;
+                    color: white;
+                    background-color: rgba(128, 128, 128, 0.5);
+                }
+                input {
+                    width: 100%;
+                    height: 30px;
+                }
+                label {
+                    margin-top: 20px;
+                    font-weight: bold;
+                }
+                #articles {
+                    height:auto;
+                    overflow-y: scroll;
+                }
+                .index {
+                    background-color: rgba(0, 0, 0, 0.5);
+                    padding: 10px;
+                    border-radius: 5px;
+                }
+                .hidden {
+                    display: none;
+                }
+
+                .input-row {
+                    display: flex;
+                    justify-content: space-between;
+                }
+                .input-row input {
+                    width: 49%;
+                }
+
+                #toggle-index {
+                    
+                    top: 0;
+                    left: 0;
+                    background-color: black;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 5px;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                }
+            </style>
+            
+            <button id="toggle-index">v</button>
+
+            <div id="index" class="index">
+                <div class="input-row">
+                    <input id="class" type="text" placeholder="Class">
+                    <input id="title" type="text" placeholder="Title">
+                </div>
+                <div class="input-row">
+                    <input id="author" type="text" placeholder="Author">
+                    <input id="tag" type="text" placeholder="Tag">
+                </div>
+                <label for="release-date">Release Date:</label>
+                <input id="release-date" type="date">
+                <label for="last-updated-date">Last Updated:</label>
+                <input id="last-updated-date" type="date">
+            </div>
+            
+            <div id="articles"></div>
+            `;
+
+            var btn=document.getElementById('toggle-index');
+            btn.addEventListener('click', function() {
+                var index = document.getElementById('index');
+                if (index.classList.contains('hidden')) {
+                    index.classList.remove('hidden');
+                    btn.style.transform = 'rotate(180deg)';
+                } else {
+                    index.classList.add('hidden');
+                    btn.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            $('#class, #title, #author, #tag, #release-date, #last-updated-date').on('input', function() {
+                var query = {
+                    class: $('#class').val(),
+                    title: $('#title').val(),
+                    author: $('#author').val(),
+                    tag: $('#tag').val(),
+                    "release-date": $('#release-date').val(),
+                    "last-updated-date": $('#last-updated-date').val()
+                };
+                filterArticles(query);
+            });
+
+            filterArticles({});
+        });
+        
+        function filterArticles(query) {
+            fetch('https://www.666xz666.top:3007/articles/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(query),
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateArticles(data.data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+        
+        function updateArticles(articles) {
+            var articlesDiv = document.querySelector('#articles');
+            articlesDiv.innerHTML = '';
+            articlesDiv.innerHTML +=`
+                <style>
+                    .article {
+                        border: 1px solid #000;
+                        padding: 10px;
+                        margin-bottom: 20px;
+                    }
+                    .article h2 {
+                        margin-top: 0;
+                    }
+                </style>
+            `;
+
+            function loadArticleContent(id) {
+                fetch('https://www.666xz666.top:3007/articles/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var content = data.data[0].content;
+                    document.querySelector('#content').innerHTML = marked.parse(content);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+
+            articles.forEach(article => {
+                var releaseDate = new Date(article["release-date"]).toLocaleDateString();
+                var lastUpdatedDate = new Date(article["last-updated-date"]).toLocaleDateString();
+                var tags = Array.isArray(article.tags) ? article.tags.join(',') : '';
+                // 创建 articleDiv
+                var articleDiv = document.createElement('div');
+                articleDiv.className = 'article';
+                articleDiv.innerHTML = `
+                <style>
+                    .article {
+                        background-color: rgba(0, 0, 0, 0.5);
+                        color: white;
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        padding: 10px; /* Reduced padding */
+                        border-radius: 10px;
+                        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+                    }
+                    
+                    .article h2 {
+                        width: 100%;
+                        font-weight: bold;
+                        margin-bottom: 10px; /* Reduced margin-bottom */
+                        font-size: 0.8em; /* Reduced font-size */
+                    }
+                    
+                    .article p {
+                        width: 49%;
+                        margin-bottom: 5px; /* Reduced margin-bottom */
+                        font-size: 0.6em; /* Reduced font-size */
+                        font-style: italic;
+                    }
+                </style>
+                <div class="article" style="background-color:rgba(0, 0, 0, 0.5);color:white">
+                    <h2>${article.title}</h2>
+                    <p>Author: ${article.author}</p>
+                    <p>Class: ${article.class}</p>
+                    <p>Tags: ${article.tags.join(',')}</p>
+                    <p>Release Date: ${releaseDate}</p>
+                    <p>Last Updated Date: ${lastUpdatedDate}</p>
+                </div>
+                `;
+                articleDiv.id = article.id;
+
+                // 添加点击事件监听器
+                articleDiv.addEventListener('click', function() {
+                    loadArticleContent(article.id);
+                });
+
+                // 将 articleDiv 添加到 articlesDiv
+                articlesDiv.appendChild(articleDiv);
+            });
+        }
+        
+        $('.navbar-center a[href="#Articles"]').click(function() {
+            $('#class, #title, #author, #tag').show();
+            filterArticles({});
+        });
+        
+    </script>
+
+    <!--播放器js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="/JavaScript/mu_player.js"></script>
+
+    <!--canvas-->
+    <script src="/JavaScript/canvas.js"></script>
+
+    <!--鼠标点击波纹-->
+    <script src="/JavaScript/mouse_click.js"></script>
+
+    <!--时钟-->
+    <script src="/JavaScript/clock.js"></script>
+
+    <!--加载动画-->
+    <script src="/JavaScript/loading.js"></script>
+
+</body>
+
+</html>

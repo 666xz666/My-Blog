@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #f8f9fa;
+  }
+  
+  .navbar-left, .navbar-center, .navbar-right {
+      display: flex;
+      align-items: center;
+  }
+  
+  .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+  }
+  
+  .navbar-center a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+  }
+  
+  #login-button {
+      padding: 5px 10px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+  }
+  
+  #user-info span {
+      margin: 0 10px;
+  }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="navbar-left">
+        <img src="/resources/icons/666xz666.jpg" alt="Avatar" class="avatar">
+    </div>
+    <div class="navbar-center">
+        <a href="#">Resume</a>
+        <a href="#">Articles</a>
+        <a href="#">Github</a>
+        <a href="#">Contect</a>
+        <a href="#">Contribute</a>
+        <!-- Add more options as needed -->
+    </div>
+    <div class="navbar-right">
+        <button id="login-button">Login</button>
+        <div id="user-info" style="display: none;">
+            <span id="username">Username</span>
+            <span id="email">Email</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

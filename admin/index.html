@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin</title>
+    <link rel="icon" href="/resources/icons/favicon.ico" type="image/x-icon">
+    <title>Document</title>
+
+    <style>
+		/* HTML: <div class="loader"></div> */
+		 .loader {
+			 position:absolute;
+			 top: 50%;
+			 left: 50%;
+			 width: 70px;
+			 aspect-ratio: 1;
+			 background: conic-gradient(from -45deg,#8A8780 90deg,#94BA65 0 180deg,#2790B0 0 270deg,#2B4E72 0);
+			 animation: l20 2s infinite; 
+		 }
+		 @keyframes l20 {
+			 0%  {clip-path: polygon(0    0   ,100% 0   ,50% 50%)}
+			 25% {clip-path: polygon(100% 0   ,100% 100%,50% 50%)}
+			 50% {clip-path: polygon(100% 100%,0    100%,50% 50%)}
+			 75% {clip-path: polygon(0    100%,0    0   ,50% 50%)}
+			 100%{clip-path: polygon(0    0   ,100% 0   ,50% 50%)}
+		 }
+	 </style>
+
+   <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    /*body {
+        margin: 0;
+    }*/
+
+    body{
+        background-color: black;
+    }
+
+    ol {
+        list-style: none;   
+        margin: 0;
+        padding: 0;
+    }
+
+    #c {
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+        height: 100vh;
+    }
+    
+    .main {
+        position: relative;
+        display: flex;
+        background-color: rgba(0, 0, 0, 0.5);  /* 黑色，透明度为 0.5 */
+        width: 100%;
+        height: 100vh;
+    }
+    
+    .sidebar {
+        width: 30%;
+        height: 100vh;
+        background-color: #666;
+        opacity:0.5;
+    }
+    
+    .sidebar li {
+        text-align: center;
+        list-style: none;
+        color: white;
+    }
+    
+    .sidebar li.active {
+        color: red;
+        border-left: 2px solid red;
+        background-color: rgba(65, 64, 64, 0.5);
+    }
+    
+    .content {
+        width: 70%;
+        height: 100vh;
+        background-color: rgba(102, 102, 102, 0.5);  /* 完全不透明的灰色 */
+        overflow: auto;
+    }
+   </style>
+
+   <style>
+    .ripple {
+        position: absolute;
+        width: 50px;  /* 将宽度和高度减小一半 */
+        height: 50px;  /* 将宽度和高度减小一半 */
+        border-radius: 50%;
+        animation: ripple 1s ease-out;
+        pointer-events: none;
+    }
+    @keyframes ripple {
+        from {
+            transform: scale(0);
+            opacity: 1;
+        }
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+</style>
+   
+</head>
+<body>
+    <div class="loader"></div>
+    <canvas id="c"></canvas>
+    <div class="main">
+        <ol class="sidebar">
+            <li class="new">new</li>
+            <li class="manage">manage</li>
+            <li class="account">account</li>
+        </ol>
+        <div class="content">
+        </div>
+    </div>
+    
+
+    <script src="/JavaScript/mouse_click.js"></script>
+    <script src="/JavaScript/loading.js"></script>
+    <script src="/JavaScript/canvas.js"></script>
+
+    <script>
+        /* JavaScript */
+        // 获取所有的 li 元素
+        var lis = document.querySelectorAll('.sidebar li');
+
+        // 为每个 li 添加点击事件处理器
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].addEventListener('click', function() {
+                // 移除其他所有 li 的 active 样式
+                for (var j = 0; j < lis.length; j++) {
+                    lis[j].classList.remove('active');
+                }
+
+                // 为被点击的 li 添加 active 样式
+                this.classList.add('active');
+            
+                // 清空 content 的内容
+                var content = document.querySelector('.content');
+                content.innerHTML = ``;
+            });
+        }
+
+        // 在页面加载时触发第一个 li 的点击事件
+        window.onload = function() {
+            lis[0].click();
+        };
+    </script>
+
+    <script src="/login_page/js/jquery-2.1.1.min.js"></script>
+    <script src="/JavaScript/article.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+    <script>
+        var edit = document.querySelector('.sidebar li.new');
+
+        // 添加点击事件监听器
+        edit.addEventListener('click', function() {
+            // 获取 .content 元素
+            var content = document.querySelector('.content');
+
+            var editorHtml = `
+            <div class="markdown-editor" style="position:relative; padding: 20px; background-color: rgba(0, 0, 0, 0.5); border-radius: 5px;height:100%;">
+                <input type="text" id="title" placeholder="Title" style="width: 100%; height:6vh; padding: 10px; font-size: 24px; border: none; outline: none; box-sizing: border-box; margin-bottom: 10px; color: white; background-color: rgba(128, 128, 128, 0.5);">
+                <input type="text" id="class" placeholder="class" style="width: 100%; height:6vh; padding: 10px; font-size: 20px; border: none; outline: none; box-sizing: border-box; margin-bottom: 10px; color: white; background-color: rgba(128, 128, 128, 0.5);">
+                <input type="text" id="tags" placeholder="tags (',' separated)" style="width: 100%; height:6vh; padding: 10px; font-size: 20px; border: none; outline: none; box-sizing: border-box; margin-bottom: 10px; color: white; background-color: rgba(128, 128, 128, 0.5);">
+                <textarea id="editor" style="width: 100%; height: 35vh; padding: 10px; font-size: 16px; border: none; outline: none; box-sizing: border-box; margin-bottom: 10px; color: white; background-color: rgba(128, 128, 128, 0.5);"></textarea>
+                <div id="preview" style="width: 100%; height: 35vh; overflow: auto; padding: 10px; font-size: 16px; border: none; outline: none; box-sizing: border-box; margin-bottom: 10px; color: white; background-color: transparent;"></div>
+                <button style="position: absolute; right: 20px; bottom: 20px; height: 8vh; padding: 10px 20px; font-size: 16px; border: none; outline: none; box-sizing: border-box; background-color: #007BFF; color: white; border-radius: 5px;">submit</button>
+            </div>
+            `;
+
+            // 将 Markdown 编辑器插入到 .content 中
+            content.innerHTML = editorHtml;
+
+            // 创建一个新的 markdown-it 实例
+            var md = window.markdownit({
+                html: true,
+                linkify: true,
+                typographer: true,
+            });
+
+            // 获取编辑器和预览元素
+            var editor = document.getElementById('editor');
+            var preview = document.getElementById('preview');
+
+            // 当编辑器中的内容改变时，更新预览
+            editor.addEventListener('input', function() {
+                var markdown = editor.value;
+                var html = md.render(markdown);
+                preview.innerHTML = html;
+            });
+
+            $('.markdown-editor button').click(function(){
+                var title = $('#title').val();
+                var clss = $('#class').val();
+                var content = $('#editor').val();
+                var tags = $('#tags').val().split(',');
+            
+                // 检查各项输入是否为空
+                if (!title.trim() || !clss.trim() || !content.trim() || tags.some(tag => !tag.trim())) {
+                    alert('All fields must be filled out.');
+                    return;
+                }
+            
+                // 检查 class 是否正确
+                var validClasses = ['Resume', 'Article', 'Github', 'Contact', 'Contribute','test'];
+                if (!validClasses.includes(clss)) {
+                    alert('Invalid class. Class should be one of: ' + validClasses.join(', '));
+                    return;
+                }
+            
+                // 检查 tags 是否正确
+                if (tags.some(tag => tag.trim() === '')) {
+                    alert('Invalid tags. Tags should be comma separated and not empty.');
+                    return;
+                }
+            
+                var newArticle = {
+                    title: title,
+                    class: clss,
+                    content: content,
+                    tags: tags
+                };
+                createArticle(newArticle);
+                // 清空输入框
+                $('#title, #class, #editor, #tags').val('');
+            });  
+        });
+    </script>
+
+    <script>
+        var manage = document.querySelector('.sidebar li.manage');
+
+        // 添加点击事件监听器
+        manage.addEventListener('click', function() {
+            // 获取 .content 元素
+            var content = document.querySelector('.content');
+
+            content.innerHTML=`
+            <style>
+                input, label {
+                    display: block;
+                    margin-bottom: 10px;
+                    font-size: 16px;
+                    color: white;
+                    background-color: rgba(128, 128, 128, 0.5);
+                }
+                input {
+                    width: 100%;
+                    height: 30px;
+                }
+                label {
+                    margin-top: 20px;
+                    font-weight: bold;
+                }
+                #articles {
+                    height:auto;
+                    overflow-y: scroll;
+                }
+                .index {
+                    background-color: rgba(0, 0, 0, 0.5);
+                    padding: 10px;
+                    border-radius: 5px;
+                }
+                .hidden {
+                    display: none;
+                }
+
+                .input-row {
+                    display: flex;
+                    justify-content: space-between;
+                }
+                .input-row input {
+                    width: 49%;
+                }
+            </style>
+            
+            <button id="toggle-index">v</button>
+
+            <div id="index" class="index">
+                <div class="input-row">
+                    <input id="class" type="text" placeholder="Class">
+                    <input id="title" type="text" placeholder="Title">
+                </div>
+                <div class="input-row">
+                    <input id="author" type="text" placeholder="Author">
+                    <input id="tag" type="text" placeholder="Tag">
+                </div>
+                <label for="release-date">Release Date:</label>
+                <input id="release-date" type="date">
+                <label for="last-updated-date">Last Updated:</label>
+                <input id="last-updated-date" type="date">
+            </div>
+            
+            <div id="articles"></div>
+            `;
+
+            var btn=document.getElementById('toggle-index');
+            btn.addEventListener('click', function() {
+                var index = document.getElementById('index');
+                if (index.classList.contains('hidden')) {
+                    index.classList.remove('hidden');
+                    btn.style.transform = 'rotate(180deg)';
+                } else {
+                    index.classList.add('hidden');
+                    btn.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            $('#class, #title, #author, #tag, #release-date, #last-updated-date').on('input', function() {
+                var query = {
+                    class: $('#class').val(),
+                    title: $('#title').val(),
+                    author: $('#author').val(),
+                    tag: $('#tag').val(),
+                    "release-date": $('#release-date').val(),
+                    "last-updated-date": $('#last-updated-date').val()
+                };
+                filterArticles(query);
+            });
+
+            filterArticles({});
+        });
+        
+        function filterArticles(query) {
+            fetch('https://www.666xz666.top:3007/articles/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(query),
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateArticles(data.data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+        
+        function updateArticles(articles) {
+            var articlesDiv = document.querySelector('#articles');
+            articlesDiv.innerHTML = '';
+            articlesDiv.innerHTML +=`
+                <style>
+                    .article {
+                        border: 1px solid #000;
+                        padding: 10px;
+                        margin-bottom: 20px;
+                    }
+                    .article h2 {
+                        margin-top: 0;
+                    }
+                </style>
+            `;
+            articles.forEach(article => {
+                var releaseDate = new Date(article["release-date"]).toLocaleDateString();
+                var lastUpdatedDate = new Date(article["last-updated-date"]).toLocaleDateString();
+                var tags = Array.isArray(article.tags) ? article.tags.join(',') : '';
+                articlesDiv.innerHTML += `
+                    <style>
+                        .article {
+                            background-color: rgba(0, 0, 0, 0.5);
+                            color: white;
+                            display: flex;
+                            flex-wrap: wrap;
+                            justify-content: space-between;
+                            padding: 20px;
+                            border-radius: 10px;
+                            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+                        }
+                        .article h2 {
+                            width: 100%;
+                            font-weight: bold;
+                            margin-bottom: 20px;
+                        }
+                        .article p {
+                            width: 49%;
+                            margin-bottom: 10px;
+                            font-size: 0.8em;
+                            font-style: italic;
+                        }
+                    </style>
+                    <div class="article" style="background-color:rgba(0, 0, 0, 0.5);color:white">
+                        <h2>${article.title}</h2>
+                        <p>Author: ${article.author}</p>
+                        <p>Class: ${article.class}</p>
+                        <p>Tags: ${article.tags.join(',')}</p>
+                        <p>Release Date: ${releaseDate}</p>
+                        <p>Last Updated Date: ${lastUpdatedDate}</p>
+                    </div>
+                `;
+            });
+        }
+        
+        $('.manage').click(function() {
+            $('#class, #title, #author, #tag').show();
+            filterArticles({});
+        });
+        
+
+        
+    </script>
+</body>
+</html>
